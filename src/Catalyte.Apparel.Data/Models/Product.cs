@@ -14,6 +14,8 @@ namespace Catalyte.Apparel.Data.Models
 
         public string Sku { get; set; }
 
+        public string Brand { get; set; }
+
         public string Description { get; set; }
 
         public string Demographic { get; set; }
@@ -21,6 +23,10 @@ namespace Catalyte.Apparel.Data.Models
         public string Category { get; set; }
 
         public string Type { get; set; }
+
+        public string ImageSrc { get; set; }
+
+        public string Material { get; set; }
 
         public DateTime ReleaseDate { get; set; }
 
@@ -33,6 +39,10 @@ namespace Catalyte.Apparel.Data.Models
         public string GlobalProductCode { get; set; }
 
         public bool Active { get; set; }
+
+        public decimal Price { get; set; }
+
+        public int Quantity { get; set; }
 
         public override string ToString()
         {
@@ -55,16 +65,21 @@ namespace Catalyte.Apparel.Data.Models
             {
                 var hashCode = new HashCode();
                 hashCode.Add(obj.Name);
+                hashCode.Add(obj.Brand);
                 hashCode.Add(obj.Description);
                 hashCode.Add(obj.Demographic);
                 hashCode.Add(obj.Category);
                 hashCode.Add(obj.Type);
+                hashCode.Add(obj.ImageSrc);
+                hashCode.Add(obj.Material);
                 hashCode.Add(obj.ReleaseDate);
                 hashCode.Add(obj.PrimaryColorCode);
                 hashCode.Add(obj.SecondaryColorCode);
                 hashCode.Add(obj.StyleNumber);
                 hashCode.Add(obj.GlobalProductCode);
                 hashCode.Add(obj.Active);
+                hashCode.Add(obj.Price);
+                hashCode.Add(obj.Quantity);
                 return hashCode.ToHashCode();
             }
         }
