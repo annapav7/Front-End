@@ -12,52 +12,6 @@ namespace Catalyte.Apparel.Data.SeedData
     {
         Random _rand = new();
 
-        // add lists of BRAND, MATERIAL,*
-        // create get random brand and material methods*
-        // set default test IMG SRC,*
-        // create PRICE, QUANTITY random generator Price between 2 and 200 inclusive. quantity 1-1000 inclusive
-        //create name generator
-        // create description generator
-
-
-        private List<string> _materials = new()
-        {
-
-            "Cotton",
-            "Wool",
-            "Silk",
-            "Leather",
-            "Synythetic",
-            "Velvet",
-            "Satin",
-            "Linen",
-            "Denim",
-            "Mithril",
-            "Steel Plate",
-            "Kevlar",
-            "Solid Gold",
-            "Heart Pine",
-            "Hand Blown Glass",
-            "Plastic",
-            "Cement"
-        };
-
-        private List<string> _brands = new()
-        {
-            "Patagonia",
-            "Merrell",
-            "Altra",
-            "Lowa",
-            "Five Ten",
-            "Teva",
-            "Keen",
-            "Nike",
-            "Adidas",
-            "Reebok",
-            "New Balance"
-
-        };
-
         private List<string> _colors = new()
         {
             "#000000", // white
@@ -111,15 +65,7 @@ namespace Catalyte.Apparel.Data.SeedData
             "Comfortable",
             "Water Resistant",
             "Wicking",
-            "Heavy Duty",
-            "Bullet Proof",
-            "Magic",
-            "Flame Retardant",
-            "Scratchy",
-            "Razor Sharp",
-            "Bulky",
-            "Shiny",
-            "Profitable"
+            "Heavy Duty"
         };
 
         private List<string> _types = new()
@@ -142,8 +88,7 @@ namespace Catalyte.Apparel.Data.SeedData
             "Wristband",
             "Hoodie",
             "Flip Flop",
-            "Pool Noodle",
-            "Banana Stand"
+            "Pool Noodle"
         };
 
         private List<string> _skuMods = new()
@@ -156,20 +101,6 @@ namespace Catalyte.Apparel.Data.SeedData
             "LRG",
             "SM"
         };
-
-        /// <summary>
-        /// Generates a random date
-        /// </summary>
-        /// <returns>A datetime</returns>
-        private DateTime GetRandomDate()
-        {
-         int rndYear = _rand.Next(2015, 2023);
-         int rndMonth = _rand.Next(1, 12);
-         int rndDay = (DateTime.IsLeapYear(rndYear)) ? _rand.Next(1,30) : _rand.Next(1,29);
-            return new DateTime(rndYear, rndMonth, rndDay);
-        }
-
-       
 
         /// <summary>
         /// Generates a randomized product SKU.
@@ -187,101 +118,13 @@ namespace Catalyte.Apparel.Data.SeedData
             return builder.ToString().ToUpper();
         }
 
-
-        /// <summary>
-        /// Returns a random quantity .
-        /// </summary>
-        /// <returns>int quantity.</returns>
-        private int GetQuantity()
-        {
-            return _rand.Next(1, 1000);
-        }
-
-        /// <summary>
-        /// Returns a random price .
-        /// </summary>
-        /// <returns>decimal price.</returns>
-        private decimal GetPrice()
-        {
-            return _rand.Next(5, 200);
-        }
-
-
-        /// <summary>
-        /// Returns a random adjective .
-        /// </summary>
-        /// <returns>adjective string.</returns>
-        private string GetAdjective()
-        {
-            return _adjectives[_rand.Next(0, 20)];
-        }
-
-        /// <summary>
-        /// Returns a random brand .
-        /// </summary>
-        /// <returns>brand string.</returns>
-        private string GetBrand()
-        {
-            return _brands[_rand.Next(0, 10)];
-        }
-
-
-
-        /// <summary>
-        /// Returns a random material.
-        /// </summary>
-        /// <returns>string material.</returns>
-        private string GetMaterial()
-        {
-            return _materials[_rand.Next(0, 16)];
-        }
-
-
-
-
-        /// <summary>
-        /// Returns a random color code.
-        /// </summary>
-        /// <returns>string hex color code.</returns>
-        private string GetColor()
-        {
-            return _colors[_rand.Next(0, 14)];
-        }
-
-        /// <summary>
-        /// Returns a random bool.
-        /// </summary>
-        /// <returns>A bool.</returns>
-        private bool GetBool()
-        {
-            return _rand.Next(0,2) > 0;
-        }
-
-        /// <summary>
-        /// Returns a random type from the list of types.
-        /// </summary>
-        /// <returns>A type string.</returns>
-        private string GetType()
-        {
-            return _types[_rand.Next(0, 18)];
-        }
-
         /// <summary>
         /// Returns a random demographic from the list of demographics.
         /// </summary>
         /// <returns>A demographic string.</returns>
         private string GetDemographic()
         {
-            return _demographics[_rand.Next(0, 3)];
-        }
-
-        /// <summary>
-        /// Returns a random category from the list of categories.
-        /// </summary>
-        /// <returns>A category string.</returns>
-        private string GetCategory()
-        {
-            return _categories[_rand.Next(0, 9)];
+            return _demographics[_rand.Next(0, 2)];
         }
 
         /// <summary>
@@ -327,37 +170,19 @@ namespace Catalyte.Apparel.Data.SeedData
         /// <returns>A randomly generated product.</returns>
         private Product CreateRandomProduct(int id)
         {
-            var cat = GetCategory();
-            var adj = GetAdjective();
-            var type = GetType();
-            var demographics = GetDemographic();
-            var name = String.Concat(adj, " ", cat, " ", type);
-            var description = String.Concat(name, " is a ", cat.ToLower()," ", type.ToLower(), " especially designed for ", demographics.ToLower(), "! It's really ", adj.ToLower(), "!");
-
-
             return new Product
             {
                 Id = id,
-                Category = cat,
-                Type = type,
+                Category = _categories[_rand.Next(0, 9)],
+                Type = "Short",
                 Sku = GetRandomSku(),
                 Demographic = GetDemographic(),
                 GlobalProductCode = GetRandomProductId(),
                 StyleNumber = GetStyleCode(),
-                ReleaseDate = GetRandomDate(),
+                ReleaseDate = DateTime.Now,
                 DateCreated = DateTime.UtcNow,
                 DateModified = DateTime.UtcNow,
-                Active = GetBool(),
-                PrimaryColorCode = GetColor(),
-                SecondaryColorCode = GetColor(),
-                ImageSrc = "https://source.unsplash.com/random",
-                Brand = GetBrand(),
-                Material = GetMaterial(),
-                Price = GetPrice(),
-                Quantity = GetQuantity(),
-                Name = name,
-                Description = description
-               
+                Active = false
             };
         }
 
