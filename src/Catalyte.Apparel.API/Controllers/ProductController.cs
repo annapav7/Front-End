@@ -2,6 +2,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalyte.Apparel.DTOs.Products;
+using Catalyte.Apparel.DTOs.Filters;
 using Catalyte.Apparel.Providers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,18 +31,19 @@ namespace Catalyte.Apparel.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync([FromQuery] ProductFilterQuery filterQuery)
         {
             _logger.LogInformation("Request received for GetProductsAsync");
 
-            var products = await _productProvider.GetProductsAsync();
+            var products = await _productProvider.GetProductsAsync(filterQuery);
             var productDTOs = _mapper.Map<IEnumerable<ProductDTO>>(products);
 
             return Ok(productDTOs);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(int id)
+
         {
             _logger.LogInformation($"Request received for GetProductByIdAsync for id: {id}");
 
@@ -49,6 +51,30 @@ namespace Catalyte.Apparel.API.Controllers
             var productDTO = _mapper.Map<ProductDTO>(product);
 
             return Ok(productDTO);
+        }
+
+        [HttpGet("categories")]
+        
+        public async Task<ActionResult<IEnumerable<string>>> GetDistinctCategoriesAsync()
+        {
+            _logger.LogInformation("Request received for GetProductsAsync");
+
+            var categories = await _productProvider.GetDistinctCategoriesAsync();
+            var productDTOs = _mapper.Map<IEnumerable<string>>(categories);
+
+            return Ok(productDTOs);
+        }
+
+        [HttpGet("types")]
+
+        public async Task<ActionResult<IEnumerable<string>>> GetDistinctTypesAsync()
+        {
+            _logger.LogInformation("Request received for GetDistinctTypesAsync");
+
+            var types = await _productProvider.GetDistinctTypesAsync();
+            var productDTOs = _mapper.Map<IEnumerable<string>>(types);
+
+            return Ok(productDTOs);
         }
     }
 }

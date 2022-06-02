@@ -11,7 +11,7 @@ namespace Catalyte.Apparel.Providers.Interfaces
     /// </summary>
     public interface IPurchaseProvider
     {
-        Task<IEnumerable<Purchase>> GetAllPurchasesAsync();
+        Task<Purchase> GetAllPurchasesAsync(string email);
 
         Task<Purchase> CreatePurchaseAsync(Purchase model);
     }

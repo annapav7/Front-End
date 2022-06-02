@@ -2,12 +2,8 @@
 using Catalyte.Apparel.Data.Models;
 using Catalyte.Apparel.DTOs;
 using Catalyte.Apparel.DTOs.Products;
+using Catalyte.Apparel.DTOs.Promos;
 using Catalyte.Apparel.DTOs.Purchases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Catalyte.Apparel.API
 {
@@ -29,6 +25,8 @@ namespace Catalyte.Apparel.API
             CreateMap<LineItem, LineItemDTO>().ReverseMap();
             
             CreateMap<User, UserDTO>().ReverseMap();
+
+            CreateMap<Promo, PromoDTO>().ReverseMap();
         }
 
     }

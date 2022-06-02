@@ -27,14 +27,24 @@ namespace Catalyte.Apparel.DTOs.Products
 
         public DateTime ReleaseDate { get; set; }
 
-        private string PrimaryColorCode { get; set; }
+        public string PrimaryColorCode { get; set; }
 
-        private string SecondaryColorCode { get; set; }
+        public string SecondaryColorCode { get; set; }
 
-        private string StyleNumber { get; set; }
+        public string StyleNumber { get; set; }
 
-        private string GlobalProductCode { get; set; }
+        public string GlobalProductCode { get; set; }
 
-        private bool Active { get; set; }
+        public bool Active { get; set; }
+
+        public string Brand { get; set; }
+
+        public string ImageSrc { get; set; }
+
+        public string Material { get; set; }
+
+        public decimal Price { get; set; }
+
+        public int Quantity { get; set; }
     }
 }
