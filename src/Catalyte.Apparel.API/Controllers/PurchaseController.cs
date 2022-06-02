@@ -6,6 +6,7 @@ using Catalyte.Apparel.DTOs.Purchases;
 using Catalyte.Apparel.Providers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Catalyte.Apparel.Data.Models;
 
 namespace Catalyte.Apparel.API.Controllers
 {
@@ -31,15 +32,29 @@ namespace Catalyte.Apparel.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<PurchaseResponseDTO>>> GetAllPurchasesAsync()
+        [HttpGet("{email}")]
+        public async Task<ActionResult<PurchaseResponseDTO>> GetAllPurchasesAsync(string email)
         {
             _logger.LogInformation("Request received for GetAllPurchasesAsync");
 
-            var purchases = await _purchaseProvider.GetAllPurchasesAsync();
-            var purchaseResponseDTOs = _mapper.MapPurchasesToPurchaseResponseDTOs(purchases);
+            try
+            {
+                var purchaseByEmail = await _purchaseProvider.GetAllPurchasesAsync(email);
+                var purchaseByEmailDTO = _mapper.MapPurchaseToPurchaseResponseDTO(purchaseByEmail);
 
-            return Ok(purchaseResponseDTOs);
+                return Ok(purchaseByEmailDTO);
+            }
+            catch
+            {
+                return Ok(new string[] { });
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Handle404()
+        {
+            return StatusCode(404);
         }
 
         [HttpPost]

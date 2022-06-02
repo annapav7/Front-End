@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Catalyte.Apparel.Data.Models
 {
@@ -10,11 +11,14 @@ namespace Catalyte.Apparel.Data.Models
     {
 
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        [JsonIgnore]
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
-        public DateTime DateModified { get; set; }
+        [JsonIgnore]
+        public DateTime DateModified { get; set; } = DateTime.UtcNow;
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Catalyte.Apparel.Data.Context;
+using Catalyte.Apparel.Data.Filters;
 using Catalyte.Apparel.Data.Interfaces;
 using Catalyte.Apparel.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,21 +23,20 @@ namespace Catalyte.Apparel.Data.Repositories
             _ctx = ctx;
         }
 
-        public async Task<List<Purchase>> GetAllPurchasesAsync()
-        {
-            return await _ctx.Purchases
-                .Include(p => p.LineItems)
-                .ThenInclude(p => p.Product)
-                .AsNoTracking()
-                .ToListAsync();
-        }
-
         public async Task<Purchase> CreatePurchaseAsync(Purchase purchase)
         {
             await _ctx.Purchases.AddAsync(purchase);
             await _ctx.SaveChangesAsync();
 
             return purchase;
+        }
+
+        public async Task<Purchase> GetAllPurchasesAsync(string email)
+        {
+            return await _ctx.Purchases
+                .AsNoTracking()
+                .WhereBillingEmailEquals(email)
+                .SingleOrDefaultAsync();
         }
     }
 }
