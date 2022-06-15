@@ -54,7 +54,6 @@ namespace Catalyte.Apparel.API.Controllers
         }
 
         [HttpGet("categories")]
-        
         public async Task<ActionResult<IEnumerable<string>>> GetDistinctCategoriesAsync()
         {
             _logger.LogInformation("Request received for GetProductsAsync");
@@ -66,7 +65,6 @@ namespace Catalyte.Apparel.API.Controllers
         }
 
         [HttpGet("types")]
-
         public async Task<ActionResult<IEnumerable<string>>> GetDistinctTypesAsync()
         {
             _logger.LogInformation("Request received for GetDistinctTypesAsync");

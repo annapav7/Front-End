@@ -1,12 +1,11 @@
-﻿﻿using AutoMapper;
-using Catalyte.Apparel.API.DTOMappings;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Catalyte.Apparel.API.DTOMappings;
 using Catalyte.Apparel.DTOs.Purchases;
 using Catalyte.Apparel.Providers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Catalyte.Apparel.Data.Models;
 
 namespace Catalyte.Apparel.API.Controllers
 {
@@ -15,6 +14,7 @@ namespace Catalyte.Apparel.API.Controllers
     /// </summary>
     [ApiController]
     [Route("/purchases")]
+
     public class PurchaseController : ControllerBase
     {
         private readonly ILogger<PurchaseController> _logger;
@@ -33,30 +33,33 @@ namespace Catalyte.Apparel.API.Controllers
         }
 
         [HttpGet("{email}")]
-        public async Task<ActionResult<PurchaseResponseDTO>> GetAllPurchasesAsync(string email)
+        public async Task<ActionResult<PurchaseResponseDTO>> GetAllPurchasesByEmailAsync(string email)
         {
             _logger.LogInformation("Request received for GetAllPurchasesAsync");
 
-            try
-            {
-                var purchaseByEmail = await _purchaseProvider.GetAllPurchasesAsync(email);
-                var purchaseByEmailDTO = _mapper.MapPurchaseToPurchaseResponseDTO(purchaseByEmail);
+            var purchaseByEmail = await _purchaseProvider.GetAllPurchasesByEmailAsync(email);
+            var purchaseByEmailDTO = _mapper.MapPurchasesToPurchaseResponseDTOs(purchaseByEmail);
 
-                return Ok(purchaseByEmailDTO);
-            }
-            catch
-            {
-                return Ok(new string[] { });
-            }
+
+            return Ok(purchaseByEmailDTO);
 
         }
 
+        /// <summary>
+        /// Endpoint for get all purchases with no email
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Handle404()
+        public void GetAllPurchasesAsync()
         {
-            return StatusCode(404);
+            _purchaseProvider.GetAllPurchasesAsync();
         }
 
+
+        /// <summary>
+        /// Helper set up to test the purchase response behavior when purchase request is made through valid information
+        /// or invalid information. Purchase persists in repository when purchase request is made with all the valid information.
+        /// When the request is not made with valid information, purchase doesn't persist in the repository.
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<List<PurchaseResponseDTO>>> CreatePurchaseAsync([FromBody] PurchaseRequestDTO model)
         {
@@ -66,12 +69,8 @@ namespace Catalyte.Apparel.API.Controllers
             var savedPurchase = await _purchaseProvider.CreatePurchaseAsync(newPurchase);
             var purchaseResponseDTO = _mapper.MapPurchaseToPurchaseResponseDTO(savedPurchase);
 
-            if (purchaseResponseDTO != null)
-            {
-                return NoContent();
-            }
-
             return Created($"/purchases/", purchaseResponseDTO);
         }
+
     }
 }

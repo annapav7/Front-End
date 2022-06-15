@@ -16,7 +16,7 @@ namespace Catalyte.Apparel.Data.Context
             var productFactory = new ProductFactory();
             var promoFactory = new PromoFactory();
 
-            modelBuilder.Entity<Product>().HasData(productFactory.GenerateRandomProducts(1000));
+            modelBuilder.Entity<Product>().HasData(productFactory.GenerateRandomProducts(500));
 
             var lineItem = new LineItem()
             {
@@ -51,13 +51,29 @@ namespace Catalyte.Apparel.Data.Context
                 CardHolder = "Max Perkins",
                 CardNumber = "1435678998761234",
                 Expiration = "11/21",
-                CVV = 456,
+                CVV = "456",
                 OrderDate = new DateTime(2021, 5, 4)
             };
 
             modelBuilder.Entity<Purchase>().HasData(purchase);
 
             modelBuilder.Entity<Promo>().HasData(promoFactory.GenerateRandomPromos(10));
+
+            var user = new User()
+            {
+                Id = 1,
+                Email = "jdimer@catalyte.io",
+                Role = "Customer",
+                FirstName = "Jimmy",
+                LastName = "Dimer",
+                ShippingStreet = "20 W Kinzie St",
+                ShippingStreet2 = "Suite 1420",
+                ShippingCity = "Chicago",
+                ShippingState = "Illinois",
+                ShippingZip = 60610,
+            };
+
+            modelBuilder.Entity<User>().HasData(user);
         }
     }
 }

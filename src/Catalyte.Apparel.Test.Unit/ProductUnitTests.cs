@@ -4,6 +4,7 @@ using Catalyte.Apparel.Providers.Interfaces;
 using Catalyte.Apparel.Providers.Providers;
 using Catalyte.Apparel.DTOs.Filters;
 using Catalyte.Apparel.Utilities.HttpResponseExceptions;
+using Catalyte.Apparel.TestBase.Helpers;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -22,12 +23,15 @@ namespace Catalyte.Apparel.Test.Unit
         public ProductUnitTests()
         {
             productRepo = new Mock<IProductRepository>();
-
             logger = new Mock<ILogger<ProductProvider>>();
-
             productProvider = new ProductProvider(productRepo.Object, logger.Object);
-
             filterQuery = new ProductFilterQuery();
+
+            IEnumerable<string> distinctCategories = new string[] { ProductHelper.categorySoccer, ProductHelper.categoryGolf };
+            IEnumerable<string> distinctTypes = new string[] { ProductHelper.typesBelt, ProductHelper.typesHelmet };
+
+            productRepo.Setup(repo => repo.GetDistinctCategoriesAsync()).ReturnsAsync(distinctCategories);
+            productRepo.Setup(repo => repo.GetDistinctTypesAsync()).ReturnsAsync(distinctTypes);
         }
 
         [Fact]
@@ -37,7 +41,7 @@ namespace Catalyte.Apparel.Test.Unit
 
             await Assert.ThrowsAsync<ServiceUnavailableException>(() => productProvider.GetProductByIdAsync(1));
         }
-        
+
         [Fact]
         public async void GetProductsById_NotFound_Returns404()
         {
@@ -55,7 +59,7 @@ namespace Catalyte.Apparel.Test.Unit
 
             await Assert.ThrowsAsync<NotFoundException>(() => productProvider.GetProductByIdAsync(1));
         }
-        
+
         [Fact]
         public async void GetProductsById_ValidId_ReturnsProduct()
         {
@@ -69,7 +73,7 @@ namespace Catalyte.Apparel.Test.Unit
             Assert.NotNull(actual);
             Assert.IsType<Product>(actual);
         }
-        
+
         [Fact]
         public async void GetProducts_DatabaseException_Returns503()
         {
@@ -77,7 +81,7 @@ namespace Catalyte.Apparel.Test.Unit
 
             await Assert.ThrowsAsync<ServiceUnavailableException>(() => productProvider.GetProductsAsync(filterQuery));
         }
-        
+
         [Fact]
         public async void GetProducts_NullFilterQuery_ReturnsProducts()
         {
@@ -92,7 +96,7 @@ namespace Catalyte.Apparel.Test.Unit
             Assert.NotNull(actual);
             Assert.IsType<Product[]>(actual);
         }
-        
+
         [Fact]
         public async void GetProducts_ValidFilterQuery_ReturnsProducts()
         {
@@ -102,22 +106,45 @@ namespace Catalyte.Apparel.Test.Unit
                 return Array.Empty<Product>();
             });
 
-            var filterQuery = new ProductFilterQuery()
-            {
-                Brand = new string[] { "Nike", "Adidas" },
-                Category = new string[] { "Soccer", "Golf" },
-                Demographic = new string[] { "Women", "Men" },
-                PriceMin = 1m,
-                PriceMax = 100m,
-                Color = new string[] { "#ffffff", "#000000"},
-                Material = new string[] { "Cotton", "Polyester" }
-            };
-
+            var filterQuery = ProductHelper.GenerateValidProductFilterQuery();
             var actual = await productProvider.GetProductsAsync(filterQuery);
 
             Assert.NotNull(actual);
             Assert.IsType<Product[]>(actual);
         }
 
+        [Fact]
+        public async void GetDistinctCategories_ReturnsCategories()
+        {
+            var actual = await productProvider.GetDistinctCategoriesAsync();
+
+            Assert.Contains(actual, item => item == ProductHelper.categoryGolf);
+            Assert.Contains(actual, item => item == ProductHelper.categorySoccer);
+        }
+
+        [Fact]
+        public async void GetDistinctCategories_ThrowsServiceUnavailable()
+        {
+            productRepo.Setup(repo => repo.GetDistinctCategoriesAsync()).Throws(new Exception());
+            
+            await Assert.ThrowsAsync<ServiceUnavailableException>(() => productProvider.GetDistinctCategoriesAsync());
+        }
+
+        [Fact]
+        public async void GetDistinctTypes_ReturnsTypes()
+        {
+            var actual = await productProvider.GetDistinctTypesAsync();
+
+            Assert.Contains(actual, item => item == ProductHelper.typesHelmet);
+            Assert.Contains(actual, item => item == ProductHelper.typesBelt);
+        }
+
+        [Fact]
+        public async void GetDistinctTypes_ThrowsServiceUnavailable()
+        {
+            productRepo.Setup(repo => repo.GetDistinctTypesAsync()).Throws(new Exception());
+
+            await Assert.ThrowsAsync<ServiceUnavailableException>(() => productProvider.GetDistinctTypesAsync());
+        }
     }
 }

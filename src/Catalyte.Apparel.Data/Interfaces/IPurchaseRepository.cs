@@ -10,6 +10,7 @@ namespace Catalyte.Apparel.Data.Interfaces
     public interface IPurchaseRepository
     {
         Task<Purchase> CreatePurchaseAsync(Purchase purchase);
-        Task<Purchase> GetAllPurchasesAsync(string email);
+
+        Task<IEnumerable<Purchase>> GetAllPurchasesByEmailAsync(string email);
     }
 }

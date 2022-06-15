@@ -22,12 +22,20 @@ namespace Catalyte.Apparel.Test.Integration
         }
 
         [Fact]
-        public async Task GetProducts_Returns200()
+        public async Task GetProducts_GivenValidQuery_Returns200()
         {
-            var response = await _client.GetAsync("/products");
+            var request = "/products";
+            var response = await _client.GetAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+
+        [Fact]
+        public async Task GetProductsFilterQueryReturns200()
+        {
+            var response = await _client.GetAsync("/products?brand=Nike&category=Soccer&demographic=Men&priceMin=1&priceMax=100&color=%23ffffff&material=Cotton");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-        
+
         [Fact]
         public async Task GetProducts_FilterQuery_Returns200()
         {
@@ -48,13 +56,14 @@ namespace Catalyte.Apparel.Test.Integration
         [Fact]
         public async Task DistinctCategories_Returns200()
         {
-            var response = await _client.GetAsync("/categories");
+            var response = await _client.GetAsync("/products/categories");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
+
         [Fact]
         public async Task DistinctTypes_Returns200()
         {
-            var response = await _client.GetAsync("/types");
+            var response = await _client.GetAsync("/products/types");
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 

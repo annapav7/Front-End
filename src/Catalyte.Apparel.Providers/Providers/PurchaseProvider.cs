@@ -29,13 +29,13 @@ namespace Catalyte.Apparel.Providers.Providers
         /// Retrieves all purchases from the database.
         /// </summary>
         /// <returns>All purchases.</returns>
-        public async Task<Purchase> GetAllPurchasesAsync(string email)
+        public async Task<IEnumerable<Purchase>> GetAllPurchasesByEmailAsync(string email)
         {
-            Purchase purchases;
+            IEnumerable<Purchase> purchases;
 
             try
             {
-                purchases = await _purchaseRepository.GetAllPurchasesAsync(email);
+                purchases = await _purchaseRepository.GetAllPurchasesByEmailAsync(email);
             }
             catch (Exception ex)
             {
@@ -43,13 +43,16 @@ namespace Catalyte.Apparel.Providers.Providers
                 throw new ServiceUnavailableException("There was a problem connecting to the database.");
             }
 
-            if (purchases == default)
-            {
-                _logger.LogError($"Could not find user with email: {email}");
-                throw new NotFoundException($"Could not find user with email: {email}");
-            }
-
             return purchases;
+        }
+
+        /// <summary>
+        /// throws exception if endpoint is called
+        /// </summary>
+        /// <exception cref="NotFoundException">throws exception when endpoint is called</exception>
+        public void GetAllPurchasesAsync()
+        {
+            throw new NotFoundException("Endpoint does not exist");
         }
 
         /// <summary>
@@ -71,6 +74,7 @@ namespace Catalyte.Apparel.Providers.Providers
                 _logger.LogError(ex.Message);
                 throw new ServiceUnavailableException("There was a problem connecting to the database.");
             }
+
 
             return savedPurchase;
         }
@@ -116,7 +120,7 @@ namespace Catalyte.Apparel.Providers.Providers
             {
                 throw new UnprocessableEntityException($"The following product is inactive and therefore cannot be purchased: {product.Name}.");
             }
-            else 
+            else
             {
                 return newPurchase;
             }

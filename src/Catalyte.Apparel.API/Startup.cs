@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using Catalyte.Apparel.Utilities;
 
 namespace Catalyte.Apparel.API
 {
@@ -37,12 +38,12 @@ namespace Catalyte.Apparel.API
             services.AddProviders();
             services.AddAutoMapper(typeof(MapperProfile));
 
-            //services.AddAuthentication()
-            //    .AddGoogle(options =>
-            //    {
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
             //        // === GOOGLE AUTH W/O SECRETS MANAGER (USED FOR PROJECT -> EASIER TO MANAGE) ===
-            //        //options.ClientId = Constants.GOOGLE_CLIENT_ID;
-            //        //options.ClientSecret = Constants.GOOGLE_CLIENT_SECRET;
+                    options.ClientId = Constants.GOOGLE_CLIENT_ID;
+                    options.ClientSecret = Constants.GOOGLE_CLIENT_SECRET;
 
             //        // === GOOGLE AUTH WITH SECRETS MANAGER (BEST PRACTICE -> MORE INVOLVED) ===
             //        //IConfigurationSection googleAuthNSection =
@@ -50,7 +51,7 @@ namespace Catalyte.Apparel.API
 
             //        //options.ClientId = googleAuthNSection["ClientId"];
             //        //options.ClientSecret = googleAuthNSection["ClientSecret"];
-            //    });            //services.AddAuthentication()
+                });            //services.AddAuthentication()
 
             services.AddControllers(options =>
             {

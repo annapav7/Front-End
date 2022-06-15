@@ -31,12 +31,12 @@ namespace Catalyte.Apparel.Data.Repositories
             return purchase;
         }
 
-        public async Task<Purchase> GetAllPurchasesAsync(string email)
+        public async Task<IEnumerable<Purchase>> GetAllPurchasesByEmailAsync(string email)
         {
             return await _ctx.Purchases
                 .AsNoTracking()
                 .WhereBillingEmailEquals(email)
-                .SingleOrDefaultAsync();
+                .ToListAsync();
         }
     }
 }
