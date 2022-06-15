@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Catalyte.Apparel.DTOs.Purchases
 {
@@ -14,6 +15,7 @@ namespace Catalyte.Apparel.DTOs.Purchases
 
         public BillingAddressDTO BillingAddress { get; set; }
 
+        [Required]
         public CreditCardDTO CreditCard { get; set; }
 
         public List<LineItemDTO> LineItems { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Catalyte.Apparel.Data.Interfaces;
 using Catalyte.Apparel.Data.Models;
+using Catalyte.Apparel.DTOs.Purchases;
 using Catalyte.Apparel.Providers.Interfaces;
 using Catalyte.Apparel.Providers.Providers;
 using Catalyte.Apparel.Utilities.HttpResponseExceptions;
@@ -7,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
 using Xunit;
 
 namespace Catalyte.Apparel.Test.Unit
@@ -52,7 +56,9 @@ namespace Catalyte.Apparel.Test.Unit
                     CardHolder = "Max Perkins",
                     CardNumber = "1435678998761234",
                     Expiration = "11/21",
-                    CVV = 456,
+                    CVV = "456",
+
+              
                     OrderDate = new DateTime(2021, 5, 4)
                 }
             };
@@ -111,7 +117,8 @@ namespace Catalyte.Apparel.Test.Unit
                 CardHolder = "George Sparks",
                 CardNumber = "1856972658932587",
                 Expiration = "20/25",
-                CVV = 759,
+                CVV = "759",
+
                 OrderDate = new DateTime(2021, 5, 4),
                 LineItems = new List<LineItem>()
                 {
@@ -129,6 +136,41 @@ namespace Catalyte.Apparel.Test.Unit
             Assert.IsType<Purchase>(actual);
             Assert.Equal(purchases.Count, actual.Id);
         }
+        [Fact]
+        public void CreditCardValidation_TestEmptyString_ReturnsError()
+        {
+            var emptyString = new CreditCardDTO()
+            {
+                CardHolder = "George Sparks",
+                CardNumber = "1234567812345678",
+                Expiration = "",
+                CVV = "759",
+            };
+            var lstErrors = ValidateModel(emptyString);
+            Assert.True(lstErrors.Where(x => x.ErrorMessage.Contains("Expiration is a required field")).Count() > 0);
+        }
+        [Fact]
+        public void CreditCardValidation_TestInvalidInfo_ReturnsError()
+        {
+            var wrongLength = new CreditCardDTO()
+            {
+                CardHolder = "George Sparks",
+                CardNumber = "1234567812345678",
+                Expiration = "11/25",
+                CVV = "7539",
+            };
+            var lstErrors = ValidateModel(wrongLength);
+            Assert.True(lstErrors.Where(x => x.ErrorMessage.Contains("CVV must be three consecutive digits")).Count() > 0);
+        }
+        private IList<ValidationResult> ValidateModel(object model)
+        {
+            var validationResults = new List<ValidationResult>();
+            var ctx = new ValidationContext(model, null, null);
+            Validator.TryValidateObject(model, ctx, validationResults, true);
+            return validationResults;
+        }
+
+
     }
 }
 

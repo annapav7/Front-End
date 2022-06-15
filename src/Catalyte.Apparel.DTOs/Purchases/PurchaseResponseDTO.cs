@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Catalyte.Apparel.DTOs.Purchases
 {
@@ -19,5 +20,6 @@ namespace Catalyte.Apparel.DTOs.Purchases
         public CreditCardDTO CreditCard { get; set; }
 
         public List<LineItemDTO> LineItems { get; set; }
+
     }
 }

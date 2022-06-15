@@ -18,6 +18,16 @@ namespace Catalyte.Apparel.Data.Models
 
         public string LastName { get; set; }
 
+        public string ShippingStreet { get; set; }
+
+        public string ShippingStreet2 { get; set; }
+
+        public string ShippingCity { get; set; }
+
+        public string ShippingState { get; set; }
+
+        public int ShippingZip { get; set; }
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
@@ -33,7 +43,7 @@ namespace Catalyte.Apparel.Data.Models
                 if (ReferenceEquals(x, null)) return false;
                 if (ReferenceEquals(y, null)) return false;
                 if (x.GetType() != y.GetType()) return false;
-                return x.Email == y.Email && x.Role == y.Role && x.FirstName == y.FirstName && x.LastName == y.LastName;
+                return x.Email == y.Email && x.Role == y.Role && x.FirstName == y.FirstName && x.LastName == y.LastName && x.ShippingStreet == y.ShippingStreet && x.ShippingStreet2 == y.ShippingStreet2 && x.ShippingCity == y.ShippingCity && x.ShippingState == y.ShippingState && x.ShippingZip == y.ShippingZip;
             }
 
             public int GetHashCode(User obj)
@@ -43,6 +53,11 @@ namespace Catalyte.Apparel.Data.Models
                 hashCode.Add(obj.Role);
                 hashCode.Add(obj.FirstName);
                 hashCode.Add(obj.LastName);
+                hashCode.Add(obj.ShippingStreet);
+                hashCode.Add(obj.ShippingStreet2);
+                hashCode.Add(obj.ShippingCity);
+                hashCode.Add(obj.ShippingState);
+                hashCode.Add(obj.ShippingZip);
                 return hashCode.ToHashCode();
             }
         }

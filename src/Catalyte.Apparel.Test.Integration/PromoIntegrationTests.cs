@@ -1,6 +1,7 @@
 ﻿using Catalyte.Apparel.Data.Models;
 using Catalyte.Apparel.DTOs.Promos;
 using Catalyte.Apparel.Test.Integration.Utilities;
+using Catalyte.Apparel.TestBase.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System;
@@ -45,18 +46,10 @@ namespace Catalyte.Apparel.Test.Integration
         [Fact]
         public async Task CreatePromo_Returns201()
         {
-            Promo promo = new()
-            {
-                Title = "TEST1",
-                Description = "This is a valid test",
-                Type = "flat",
-                Rate = 50,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now.AddDays(7)
-            };
 
-            string json = JsonConvert.SerializeObject(promo);
+            Promo testPromo = PromoHelper.GenerateValidFlatPromo();
 
+            string json = JsonConvert.SerializeObject(testPromo);
             HttpContent httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/promos", httpContent);

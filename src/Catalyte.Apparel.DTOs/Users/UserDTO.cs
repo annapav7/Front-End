@@ -20,5 +20,15 @@ namespace Catalyte.Apparel.DTOs
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string ShippingStreet { get; set; }
+
+        public string ShippingStreet2 { get; set; }
+
+        public string ShippingCity { get; set; }
+
+        public string ShippingState { get; set; }
+
+        public int ShippingZip { get; set; }
     }
 }

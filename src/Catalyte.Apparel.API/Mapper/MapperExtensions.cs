@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Catalyte.Apparel.Data.Models;
 using Catalyte.Apparel.DTOs.Purchases;
+using Catalyte.Apparel.Utilities.HttpResponseExceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,9 @@ namespace Catalyte.Apparel.API.DTOMappings
                 DeliveryAddress = mapper.Map<DeliveryAddressDTO>(purchase),
                 BillingAddress = mapper.Map<BillingAddressDTO>(purchase),
                 CreditCard = mapper.Map<CreditCardDTO>(purchase)
+
             };
+           
         }
 
         public static Purchase MapCreatePurchaseDTOToPurchase(this IMapper mapper, PurchaseRequestDTO purchaseDTO)

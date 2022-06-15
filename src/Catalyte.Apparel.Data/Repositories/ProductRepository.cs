@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalyte.Apparel.DTOs.Filters;
+using System.Linq;
 
 namespace Catalyte.Apparel.Data.Repositories
 {
@@ -47,6 +48,7 @@ namespace Catalyte.Apparel.Data.Repositories
             return await _ctx.Products
                 .AsNoTracking()
                 .WhereProductMatchesFilterQuery(filterQuery)
+                .OrderBy(products => products.Id)
                 .ToListAsync();
         }
         /// <summary>

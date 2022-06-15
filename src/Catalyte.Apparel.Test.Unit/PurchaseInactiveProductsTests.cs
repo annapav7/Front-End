@@ -54,7 +54,9 @@ namespace Catalyte.Apparel.Test.Unit
                     CardHolder = "Max Perkins",
                     CardNumber = "1435678998761234",
                     Expiration = "11/21",
-                    CVV = 456,
+
+                    CVV = "456",
+
                     OrderDate = new DateTime(2021, 5, 4),
                     LineItems = new List<LineItem>()
                     {
@@ -138,7 +140,10 @@ namespace Catalyte.Apparel.Test.Unit
                 CardHolder = "George Sparks",
                 CardNumber = "1856972658932587",
                 Expiration = "20/25",
-                CVV = 759,
+
+                CVV = "759",
+
+
                 OrderDate = new DateTime(2021, 5, 4),
                 LineItems = new List<LineItem>()
                 {
@@ -213,7 +218,8 @@ namespace Catalyte.Apparel.Test.Unit
                 CardHolder = "George Sparks",
                 CardNumber = "1856972658932587",
                 Expiration = "20/25",
-                CVV = 759,
+                CVV = "759",
+
                 OrderDate = new DateTime(2021, 5, 4),
                 LineItems = new List<LineItem>()
                 {
@@ -294,7 +300,7 @@ namespace Catalyte.Apparel.Test.Unit
                 CardHolder = "George Sparks",
                 CardNumber = "1856972658932587",
                 Expiration = "20/25",
-                CVV = 759,
+                CVV = "759",
                 OrderDate = new DateTime(2021, 5, 4),
                 LineItems = new List<LineItem>()
                 {
