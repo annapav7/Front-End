@@ -16,6 +16,9 @@ namespace Catalyte.Apparel.DTOs.Purchases
 
         public CreditCardDTO CreditCard { get; set; }
 
+        public string CVV { get; set; }
+        
+
         public List<LineItemDTO> LineItems { get; set; }
     }
 }
