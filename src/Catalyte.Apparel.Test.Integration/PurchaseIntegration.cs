@@ -38,7 +38,7 @@ namespace Catalyte.Apparel.Test.Integration
                 DeliveryStreet2 = null,
                 DeliveryCity = "Birmingham",
                 DeliveryState = "AL",
-                DeliveryZip = 43690,
+                DeliveryZip = "43690",
 
                 BillingStreet = "123 Main",
                 BillingStreet2 = "Apt A",
@@ -96,7 +96,7 @@ namespace Catalyte.Apparel.Test.Integration
                     DeliveryCity = "Birmingham",
                     DeliveryState = "AL",
                     DeliveryStreet = "123 Hickley",
-                    DeliveryZip = 43690,
+                    DeliveryZip = "43690",
                     DeliveryFirstName = "Max",
                     DeliveryLastName = "Space",
                 },
@@ -108,7 +108,7 @@ namespace Catalyte.Apparel.Test.Integration
                     BillingState = "GA",
                     BillingStreet = "123 Main",
                     BillingStreet2 = "Apt A",
-                    BillingZip = 31675,
+                    BillingZip = "31675",
                 },
                 CreditCard = new CreditCardDTO()
                 {

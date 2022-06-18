@@ -261,7 +261,7 @@ namespace Catalyte.Apparel.Data.SeedData
         /// Returns a random type from the list of types.
         /// </summary>
         /// <returns>A type string.</returns>
-        private string GetType()
+        private new string GetType()
         {
             return _types[_rand.Next(0, 18)];
         }

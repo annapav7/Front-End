@@ -9,10 +9,13 @@ namespace Catalyte.Apparel.DTOs.Purchases
     /// </summary>
     public class PurchaseRequestDTO
     {
+        [Required] 
         public DateTime OrderDate { get; set; }
 
+        [Required]
         public DeliveryAddressDTO DeliveryAddress { get; set; }
 
+        [Required] 
         public BillingAddressDTO BillingAddress { get; set; }
 
         [Required]
