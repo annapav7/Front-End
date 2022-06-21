@@ -48,7 +48,7 @@ namespace Catalyte.Apparel.Test.Unit
                     DeliveryCity = "Birmingham",
                     DeliveryState = "AL",
                     DeliveryStreet = "123 Hickley",
-                    DeliveryZip = 43690,
+                    DeliveryZip = "43690",
                     DeliveryFirstName = "Max",
                     DeliveryLastName = "Space",
                     CardHolder = "Max Perkins",
